@@ -247,10 +247,11 @@ EOD;
 		portal_reply_page($redirurl, "error", $errormsg);
 	}
 
-} else if ($_POST['accept'] && $clientip && $cpcfg['auth_method'] == "none") {
-	captiveportal_logportalauth("unauthenticated", $clientmac, $clientip, "ACCEPT");
-	portal_allow($clientip, $clientmac, "unauthenticated");
-
+} else if ($_POST['auth_user'] && $_POST['accept'] && $clientip && $cpcfg['auth_method'] == "none") {
+	$user = $_POST['auth_user'];
+	captiveportal_logportalauth($user,$clientmac,$clientip,"ACCEPT");
+	portal_allow($clientip, $clientmac, $user);
+	
 } else {
 	/* display captive portal page */
 	portal_reply_page($redirurl, "login", null, $clientmac, $clientip);
